@@ -5,9 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mon Premier Ajax</title>
+    <script src="scripts/ajax.js"></script>
 
 
+    
+</head>
+<body>
+    <p id="para"></p>
+    <button id="requete">Lance Requête</button>
+    <p id="para2"></p>
+    <button id="requete2">Lance Requête</button>
     <script>
+
+        document.querySelector('#requete')
+            .addEventListener('click',function(){
+            doAjax({
+                url:'fichier.txt',
+                callback: function(reponse) {
+                    alert(reponse);
+                }
+            });
+        });
+
+        document.querySelector('#requete2')
+            .addEventListener('click',function(){
+
         //On crée une nouvelle instance d'objet AJAX
         let ajax = new XMLHttpRequest();
         //AJAX étant une service asynchrone, il va falloir
@@ -27,21 +49,20 @@
                 if(ajax.status === 200 || ajax.status === 304) {
                     //La réponse de la requête se trouve alors dans
                     //l'objet ajax dans sa propriété response.
-                    console.log(ajax.response);
+                    document.querySelector('#para2').innerHTML = 
+                            ajax.response;
                 }
             }
         };
-        //On ouvre le requête en lui fournissant le type de
-        //requête HTTP, l'url à requêter et si c'est synchrone ou non
-        ajax.open('GET', 'fichier.txt', true);
-        //On envoie la requête
-        ajax.send();
+            //On ouvre le requête en lui fournissant le type de
+            //requête HTTP, l'url à requêter et si c'est synchrone ou non
+            ajax.open('GET', 'fichier.txt', true);
+            //On envoie la requête
+            ajax.send();
+        });
 
         
 
     </script>
-</head>
-<body>
-    
 </body>
 </html>
