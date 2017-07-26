@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Contenu typé</title>
+    <script src="scripts/ajax.js"></script>
+</head>
+
+<body>
+    <div id="contenu"></div>
+
+    <ul id="ulChiens"></ul>
+
+    <script>
+        doAjax({
+            url: 'snippet.html',
+            callback: function (reponse) {
+                let parser = new DOMParser();
+                let snippet = parser
+                .parseFromString(reponse,'text/html');
+                
+                document.querySelector('#contenu')
+                    .appendChild(snippet.querySelector('section'));
+            }
+        });
+
+        doAjax({
+            url:'data.json',
+            callback: function(reponse) {
+                let objets = JSON.parse(reponse);
+                let ul = document.querySelector('#ulChiens');
+                for(let chien of objets) {
+                    let li = document.createElement('li');
+                    li.textContent = chien.name + ' ' + chien.race;
+                    ul.appendChild(li);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

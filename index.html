@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,61 +9,40 @@
     <script src="scripts/ajax.js"></script>
 
 
-    
+
 </head>
+
 <body>
     <p id="para"></p>
     <button id="requete">Lance Requête</button>
     <p id="para2"></p>
     <button id="requete2">Lance Requête</button>
     <script>
-
         document.querySelector('#requete')
-            .addEventListener('click',function(){
-            doAjax({
-                url:'fichier.txt',
-                callback: function(reponse) {
-                    alert(reponse);
-                }
+            .addEventListener('click', function () {
+                doAjax({
+                    url: 'fichier.txt',
+                    callback: function (reponse) {
+                        document.querySelector('#para')
+                            .innerHTML = reponse;
+                    }
+                });
             });
-        });
 
         document.querySelector('#requete2')
-            .addEventListener('click',function(){
+            .addEventListener('click', function () {
 
-        //On crée une nouvelle instance d'objet AJAX
-        let ajax = new XMLHttpRequest();
-        //AJAX étant une service asynchrone, il va falloir
-        //lui dire via des évènements comment se comporter
-        //au moment où il aura terminé sa requête et que 
-        //sa réponse sera disponible
-        ajax.onreadystatechange = function() {
-            /*Le readystatechange sera appelé un certain
-            nombre de fois selon où en est notre requête
-            (codes dispo sur mozilla). Le seul code qui
-            va nous intéresser nous sera celui indiquant que
-            la requête est terminé et la réponse disponible : 4
-            */
-            if(ajax.readyState === 4) {
-                //On ne voudra manipuler la réponse seulement si
-                //la requête s'est couronnée de succès
-                if(ajax.status === 200 || ajax.status === 304) {
-                    //La réponse de la requête se trouve alors dans
-                    //l'objet ajax dans sa propriété response.
-                    document.querySelector('#para2').innerHTML = 
-                            ajax.response;
-                }
-            }
-        };
-            //On ouvre le requête en lui fournissant le type de
-            //requête HTTP, l'url à requêter et si c'est synchrone ou non
-            ajax.open('GET', 'fichier.txt', true);
-            //On envoie la requête
-            ajax.send();
-        });
-
-        
-
+                doAjax({
+                    url: 'README.md',
+                    callback: function (reponse) {
+                        let div = document.createElement('div');
+                        div.innerHTML = reponse;
+                        document.querySelector('#para2')
+                            .appendChild(div);
+                    }
+                });
+            });
     </script>
 </body>
+
 </html>
