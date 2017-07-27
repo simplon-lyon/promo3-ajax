@@ -7,22 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mon Premier Ajax</title>
     <script src="scripts/ajax.js"></script>
-
-
-
 </head>
 
 <body>
     <p id="para"></p>
-    <button id="requete">Lance Requête</button>
+    <button id="requete">Lance Requête 1</button>
     <p id="para2"></p>
-    <button id="requete2">Lance Requête</button>
+    <button id="requete2">Lance Requête 2</button>
+    </br>
+    <button id="requeteEvil">Lance Roquette Démoniaque</button>
     <script>
         document.querySelector('#requete')
-            .addEventListener('click', function () {
+            .addEventListener('click', function() {
                 doAjax({
                     url: 'fichier.txt',
-                    callback: function (reponse) {
+                    callback: function(reponse) {
                         document.querySelector('#para')
                             .innerHTML = reponse;
                     }
@@ -30,11 +29,11 @@
             });
 
         document.querySelector('#requete2')
-            .addEventListener('click', function () {
+            .addEventListener('click', function() {
 
                 doAjax({
                     url: 'README.md',
-                    callback: function (reponse) {
+                    callback: function(reponse) {
                         let div = document.createElement('div');
                         div.innerHTML = reponse;
                         document.querySelector('#para2')
@@ -42,6 +41,21 @@
                     }
                 });
             });
+        let button = document.querySelector('#requeteEvil');
+        button.addEventListener('click', function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'evil.js');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        eval(xhr.responseText);
+                    } else {
+                        console.error('unexpected status code:', this.status);
+                    }
+                }
+            };
+            xhr.send(null);
+        });
     </script>
 </body>
 
