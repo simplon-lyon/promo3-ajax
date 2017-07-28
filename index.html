@@ -16,6 +16,12 @@
     <button id="requete2">Lance Requête 2</button>
     </br>
     <button id="requeteEvil">Lance Roquette Démoniaque</button>
+
+    <form method="GET" action="yo.php">
+        <textarea name="text" id="text"></textarea>
+        <input type="submit" value="Send" id="yo-button">
+    </form>
+
     <script>
         document.querySelector('#requete')
             .addEventListener('click', function() {
@@ -55,6 +61,26 @@
                 }
             };
             xhr.send(null);
+        });
+
+        button = document.querySelector("#yo-button");
+        button.addEventListener("click", function(e) {
+            e.preventDefault();
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', 'yo.php');
+            xhr.onreadystatechange = function() {
+                console.log(xhr.readyState);
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log("success: " + xhr.responseText);
+                    } else {
+                        console.error("unexpected status code:" + xhr.status);
+                        console.error(xhr.responseText);
+                    }
+                }
+            };
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send('text=toto');
         });
     </script>
 </body>
